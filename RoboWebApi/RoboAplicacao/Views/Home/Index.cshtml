@@ -1,0 +1,172 @@
+﻿@{
+    ViewData["Title"] = "Robo";
+}
+
+@{
+    RoboModel robo = ViewBag.robo != null ? ViewBag.robo : new RoboModel();
+
+    string[] inclinacao = new string[] { "btn-primary", "btn-primary", "btn-primary" };
+    string[] rotacao = new string[] { "btn-primary", "btn-primary", "btn-primary", "btn-primary", "btn-primary" };
+    string[] pulsoDir = new string[] { "btn-primary", "btn-primary", "btn-primary", "btn-primary", "btn-primary", "btn-primary", "btn-primary" };
+    string[] pulsoEsq = new string[] { "btn-primary", "btn-primary", "btn-primary", "btn-primary", "btn-primary", "btn-primary", "btn-primary" };
+    string[] cotoveloDir = new string[] { "btn-primary", "btn-primary", "btn-primary", "btn-primary" };
+    string[] cotoveloEsq = new string[] { "btn-primary", "btn-primary", "btn-primary", "btn-primary" };
+
+    try { inclinacao[robo.Cabeca.Inclinacao.Estado - 1] = "btn-success"; } catch (Exception) { }
+    try { rotacao[robo.Cabeca.Rotacao.Estado - 1] = "btn-success"; } catch (Exception) { }
+    try { pulsoDir[robo.BracoDireito.Pulso.Estado - 1] = "btn-success"; } catch (Exception) { }
+    try { pulsoEsq[robo.BracoEsquerdo.Pulso.Estado - 1] = "btn-success"; } catch (Exception) { }
+    try { cotoveloDir[robo.BracoDireito.Cotovelo.Estado - 1] = "btn-success"; } catch (Exception) { }
+    try { cotoveloEsq[robo.BracoEsquerdo.Cotovelo.Estado - 1] = "btn-success"; } catch (Exception) { }
+}
+
+@if (ViewBag.Exception != null && ViewBag.Exception != "")
+{
+    <div class="alert alert-danger" role="alert">
+        @ViewBag.Exception
+    </div>
+}
+else if (ViewBag.Message != null && ViewBag.Message != "")
+{
+    <div class="alert alert-success" role="alert">
+        @ViewBag.Message
+    </div>
+}
+
+<div id="estado" class="col-12 row">
+    <div class="col-12 text-info">
+        <label>Cabeça</label>
+    </div>
+    <div class="col-6">
+        <label>Inclinação: @robo.Cabeca.Inclinacao.EstadoDescricao</label>
+        <label></label>
+    </div>
+    <div class="col-6">
+        <label>Rotação: @robo.Cabeca.Rotacao.EstadoDescricao</label>
+        <label></label>
+    </div>
+</div>
+
+
+<div id="estado" class="col-12 row">
+    <div class="col-12 text-info">
+        <label>Braço Direito</label>
+    </div>
+    <div class="col-6">
+        <label>Cotovelo: @robo.BracoDireito.Cotovelo.EstadoDescricao</label>
+        <label></label>
+    </div>
+    <div class="col-6">
+        <label>Pulso: @robo.BracoDireito.Pulso.EstadoDescricao</label>
+        <label></label>
+    </div>
+</div>
+
+
+<div id="estado" class="col-12 row">
+    <div class="col-12 text-info">
+        <label>Braço Esquerdo</label>
+    </div>
+    <div class="col-6">
+        <label>Cotovelo: @robo.BracoEsquerdo.Cotovelo.EstadoDescricao</label>
+        <label></label>
+    </div>
+    <div class="col-6">
+        <label>Pulso: @robo.BracoEsquerdo.Pulso.EstadoDescricao </label>
+        <label></label>
+    </div>
+</div>
+
+<hr />
+
+<head class="col-12 row align-content-md-center">
+    <meta charset="utf-8" />
+    <title>Robo</title>
+
+</head>
+<body>
+    <h1><strong>Robo</strong></h1>
+    <h2><strong>Cabeça</strong></h2>
+    <div>
+        <p>Inclinação</p>
+        <p>
+            <button type="button" id="inclinacao1" onclick="alterarEstadoRobo('inclinacao',1)" class="inclinacao @inclinacao[0]">Para Cima</button>
+            <button type="button" id="inclinacao2" onclick="alterarEstadoRobo('inclinacao',2)" class="inclinacao @inclinacao[1]">Em Repouso</button>
+            <button type="button" id="inclinacao3" onclick="alterarEstadoRobo('inclinacao',3)" class="inclinacao @inclinacao[2]">Para Baixo</button>
+        </p>
+    </div>
+    <div>
+        <p>Rotação</p>
+        <p>
+            <button type="button" id="rotacao1" onclick="alterarEstadoRobo('rotacao',1)" class="rotacao @rotacao[0]">Rotação -90º</button>
+            <button type="button" id="rotacao2" onclick="alterarEstadoRobo('rotacao',2)" class="rotacao @rotacao[1]">Rotação -45º</button>
+            <button type="button" id="rotacao3" onclick="alterarEstadoRobo('rotacao',3)" class="rotacao @rotacao[2]">Em Repouso</button>
+            <button type="button" id="rotacao4" onclick="alterarEstadoRobo('rotacao',4)" class="rotacao @rotacao[3]">Rotação 45º</button>
+            <button type="button" id="rotacao5" onclick="alterarEstadoRobo('rotacao',5)" class="rotacao @rotacao[4]">Rotação 90º</button>
+        </p>
+    </div>
+    <h2>Braço Direito</h2>
+    <div>
+        <p>Pulso</p>
+        <p>
+            <button type="button" id="pulso_dir1" onclick="alterarEstadoRobo('pulso_dir',1)" class="pulso_dir @pulsoDir[0]">Rotação em -90º</button>
+            <button type="button" id="pulso_dir2" onclick="alterarEstadoRobo('pulso_dir',2)" class="pulso_dir @pulsoDir[1]">Rotação em -45º</button>
+            <button type="button" id="pulso_dir3" onclick="alterarEstadoRobo('pulso_dir',3)" class="pulso_dir @pulsoDir[2]">Em Repouso</button>
+            <button type="button" id="pulso_dir4" onclick="alterarEstadoRobo('pulso_dir',4)" class="pulso_dir @pulsoDir[3]">Rotação em 45º</button>
+            <button type="button" id="pulso_dir5" onclick="alterarEstadoRobo('pulso_dir',5)" class="pulso_dir @pulsoDir[4]">Rotação em 90º</button>
+            <button type="button" id="pulso_dir6" onclick="alterarEstadoRobo('pulso_dir',6)" class="pulso_dir @pulsoDir[5]">Rotação para 135º</button>
+            <button type="button" id="pulso_dir7" onclick="alterarEstadoRobo('pulso_dir',7)" class="pulso_dir @pulsoDir[6]">Rotação para 180º</button>
+        </p>
+    </div>
+    <div>
+        <p>Cotovelo</p>
+        <p>
+            <button type="button" id="cotovelo_dir1" onclick="alterarEstadoRobo('cotovelo_dir',1)" class="cotovelo_dir @cotoveloDir[0]">Em Repouso</button>
+            <button type="button" id="cotovelo_dir2" onclick="alterarEstadoRobo('cotovelo_dir',2)" class="cotovelo_dir @cotoveloDir[1]">Levemente Contraído</button>
+            <button type="button" id="cotovelo_dir3" onclick="alterarEstadoRobo('cotovelo_dir',3)" class="cotovelo_dir @cotoveloDir[2]">Contraído</button>
+            <button type="button" id="cotovelo_dir4" onclick="alterarEstadoRobo('cotovelo_dir',4)" class="cotovelo_dir @cotoveloDir[3]">Fortemente Contraído</button>
+        </p>
+    </div>
+    <h2>Braço Esquerdo</h2>
+    <div>
+        <p>Pulso</p>
+        <p>
+            <button type="button" id="pulso_esq1" onclick="alterarEstadoRobo('pulso_esq',1)" class="pulso_esq @pulsoEsq[0]">Rotação em -90º</button>
+            <button type="button" id="pulso_esq2" onclick="alterarEstadoRobo('pulso_esq',2)" class="pulso_esq @pulsoEsq[1]">Rotação em -45º</button>
+            <button type="button" id="pulso_esq3" onclick="alterarEstadoRobo('pulso_esq',3)" class="pulso_esq @pulsoEsq[2]">Em Repouso</button>
+            <button type="button" id="pulso_esq4" onclick="alterarEstadoRobo('pulso_esq',4)" class="pulso_esq @pulsoEsq[3]">Rotação em 45º</button>
+            <button type="button" id="pulso_esq5" onclick="alterarEstadoRobo('pulso_esq',5)" class="pulso_esq @pulsoEsq[4]">Rotação em 90º</button>
+            <button type="button" id="pulso_esq6" onclick="alterarEstadoRobo('pulso_esq',6)" class="pulso_esq @pulsoEsq[5]">Rotação para 135º</button>
+            <button type="button" id="pulso_esq7" onclick="alterarEstadoRobo('pulso_esq',7)" class="pulso_esq @pulsoEsq[6]">Rotação para 180º</button>
+        </p>
+    </div>
+    <div>
+        <p>Cotovelo</p>
+        <p>
+            <button type="button" id="cotovelo_esq1" onclick="alterarEstadoRobo('cotovelo_esq',1)" class="cotovelo_esq @cotoveloEsq[0]">Em Repouso</button>
+            <button type="button" id="cotovelo_esq2" onclick="alterarEstadoRobo('cotovelo_esq',2)" class="cotovelo_esq @cotoveloEsq[1]">Levemente Contraído</button>
+            <button type="button" id="cotovelo_esq3" onclick="alterarEstadoRobo('cotovelo_esq',3)" class="cotovelo_esq @cotoveloEsq[2]">Contraído</button>
+            <button type="button" id="cotovelo_esq4" onclick="alterarEstadoRobo('cotovelo_esq',4)" class="cotovelo_esq @cotoveloEsq[3]">Fortemente Contraído</button>
+        </p>
+    </div>
+</body>
+
+<div style="display:none">
+    @using (Html.BeginForm("Index", "Home", FormMethod.Post))
+    {
+        <input type="hidden" id="inclinacao" name="inclinacao" value="@robo.Cabeca.Inclinacao.Estado" />
+        <input type="hidden" id="rotacao" name="rotacao" value="@robo.Cabeca.Rotacao.Estado" />
+
+        <input type="hidden" id="cotovelo_dir" name="cotovelo_dir" value="@robo.BracoDireito.Cotovelo.Estado" />
+        <input type="hidden" id="cotovelo_esq" name="cotovelo_esq" value="@robo.BracoEsquerdo.Cotovelo.Estado" />
+
+        <input type="hidden" id="pulso_dir" name="pulso_dir" value="@robo.BracoDireito.Pulso.Estado" />
+        <input type="hidden" id="pulso_esq" name="pulso_esq" value="@robo.BracoEsquerdo.Pulso.Estado" />
+
+        <input type="submit" id="submitRobo" />
+    }
+</div>
+
+@section Scripts {
+    <script type="text/javascript" src="~/js/robo.js"></script>
+}
